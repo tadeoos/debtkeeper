@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <DebtKeeper/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import DebtKeeper from './components/DebtKeeper.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    DebtKeeper
   }
 }
 </script>
@@ -25,4 +24,7 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+  body {
+    background-color: #eee;
+  }
 </style>
