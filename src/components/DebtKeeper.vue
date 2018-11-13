@@ -29,59 +29,62 @@
                     </div>
                 </form>
             </div>
-            <div class="debt-items column col-lg-12 col-6 col-mx-auto layered-paper">
-                <h5>LEDGER</h5>
-                <div class="hide-sm">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th @click="sort('kind')">Kind <i v-if="currentSort === 'kind'"
-                                                              v-bind:class="sortIconClass"></i>
-                            </th>
-                            <th @click="sort('who')">Who <i v-if="currentSort === 'who'"
-                                                            v-bind:class="sortIconClass"></i>
-                            </th>
-                            <th @click="sort('what')">What <i v-if="currentSort === 'what'"
-                                                              v-bind:class="sortIconClass"></i>
-                            </th>
-                            <th @click="sort('due')">Due <i v-if="currentSort === 'due'"
-                                                            v-bind:class="sortIconClass"></i>
-                            </th>
-                            <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
-                                                                    v-bind:class="sortIconClass"></i></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(item, idx) in sortedItems" :key="idx">
-                            <td>{{item.kind}}</td>
-                            <td>{{item.who}}</td>
-                            <td>{{item.what}}</td>
-                            <td>{{item.due}}</td>
-                            <td>{{item.created | humanize}}</td>
-                            <td>
-                                <button class="btn btn-sm" @click="resolve(item)">resolve</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="show-sm">
-                    <table class="table">
-                        <tbody>
-                        <tr v-for="(item, idx) in sortedItems" :key="idx">
-                            <td>
-                                <div class="mobile-table-td">
-                                    {{item.what}} <br>
-                                    {{item.kind}} to {{item.who}} due {{item.due}}
-                                </div>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm" @click="resolve(item)">resolve</button>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <div class="debt-items column col-lg-12 col-6 col-mx-auto">
+                <div class="layered-paper">
+                    <h5>LEDGER</h5>
+                    <div class="hide-sm">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th @click="sort('kind')">Kind <i v-if="currentSort === 'kind'"
+                                                                  v-bind:class="sortIconClass"></i>
+                                </th>
+                                <th @click="sort('who')">Who <i v-if="currentSort === 'who'"
+                                                                v-bind:class="sortIconClass"></i>
+                                </th>
+                                <th @click="sort('what')">What <i v-if="currentSort === 'what'"
+                                                                  v-bind:class="sortIconClass"></i>
+                                </th>
+                                <th @click="sort('due')">Due <i v-if="currentSort === 'due'"
+                                                                v-bind:class="sortIconClass"></i>
+                                </th>
+                                <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
+                                                                        v-bind:class="sortIconClass"></i></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(item, idx) in sortedItems" :key="idx">
+                                <td>{{item.kind}}</td>
+                                <td>{{item.who}}</td>
+                                <td>{{item.what}}</td>
+                                <td>{{item.due}}</td>
+                                <td>{{item.created | humanize}}</td>
+                                <td>
+                                    <button class="btn btn-sm" @click="resolve(item)">resolve</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="show-sm">
+                        <table class="table">
+                            <tbody>
+                            <tr v-for="(item, idx) in sortedItems" :key="idx">
+                                <td>
+                                    <div class="mobile-table-td">
+                                        <b>{{item.what}}</b> <br>
+                                        {{item.kind}} to {{item.who}} <br>
+                                        due {{item.due}}
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm" @click="resolve(item)">resolve</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -182,19 +185,8 @@
         padding-bottom: 2em;
     }
 
-    .debt-form {
-        form {
-            /*margin: 0 0;*/
-            /*margin-right: 0;*/
-            /*margin-left: auto;*/
-            /*max-width: 400px;*/
-        }
-    }
-
     .debt-items {
         padding-top: 2em;
-        /*margin-top: 2em;*/
-        /*margin-left: 2em;*/
         margin: 0 auto;
     }
 
@@ -210,10 +202,9 @@
 
     th {
         cursor: pointer;
-    }
-
-    th i {
-        margin-bottom: 4px;
+        i {
+            margin-bottom: 4px;
+        }
     }
 
     .layered-paper {
@@ -227,12 +218,6 @@
 
     .input-group {
         margin-bottom: 2px;
-    }
-
-    @media (max-width: 601px) {
-        .verbose-table {
-            display: none;
-        }
     }
 
     .mobile-table-td {
