@@ -1,4 +1,6 @@
-# debt-keeper
+# Debtkeeper
+
+Simple web app to keep track of your debts.
 
 ## Project setup
 ```
