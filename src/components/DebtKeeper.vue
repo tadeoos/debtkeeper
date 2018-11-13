@@ -208,6 +208,11 @@
     }
 
     .layered-paper {
+        padding: 20px 3px;
+        @media screen and (min-width: 605px) {
+            padding-right: 20px;
+            padding-left: 20px;
+        }
         background: white;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), /* The top layer shadow */
         0 10px 0 -5px white, /* The second layer */
