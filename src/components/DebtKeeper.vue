@@ -31,53 +31,58 @@
             </div>
             <div class="debt-items column col-lg-12 col-6 col-mx-auto layered-paper">
                 <h5>LEDGER</h5>
-                <table class="hide-sm table table-striped">
-                    <thead>
-                    <tr>
-                        <th @click="sort('kind')">Kind <i v-if="currentSort === 'kind'"
-                                                          v-bind:class="sortIconClass"></i>
-                        </th>
-                        <th @click="sort('who')">Who <i v-if="currentSort === 'who'" v-bind:class="sortIconClass"></i>
-                        </th>
-                        <th @click="sort('what')">What <i v-if="currentSort === 'what'"
-                                                          v-bind:class="sortIconClass"></i>
-                        </th>
-                        <th @click="sort('due')">Due <i v-if="currentSort === 'due'" v-bind:class="sortIconClass"></i>
-                        </th>
-                        <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
-                                                                v-bind:class="sortIconClass"></i></th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(item, idx) in sortedItems" :key="idx">
-                        <td>{{item.kind}}</td>
-                        <td>{{item.who}}</td>
-                        <td>{{item.what}}</td>
-                        <td>{{item.due}}</td>
-                        <td>{{item.created | humanize}}</td>
-                        <td>
-                            <button class="btn btn-sm" @click="resolve(item)">resolve</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class="show-sm table">
-                    <tbody>
-                    <tr v-for="(item, idx) in sortedItems" :key="idx">
-                        <td>
-                            <div class="mobile-table-td">
-                                {{item.what}} <br>
-                                {{item.kind}} to {{item.who}} due {{item.due}}
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm" @click="resolve(item)">resolve</button>
-                        </td>
-
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="hide-sm">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th @click="sort('kind')">Kind <i v-if="currentSort === 'kind'"
+                                                              v-bind:class="sortIconClass"></i>
+                            </th>
+                            <th @click="sort('who')">Who <i v-if="currentSort === 'who'"
+                                                            v-bind:class="sortIconClass"></i>
+                            </th>
+                            <th @click="sort('what')">What <i v-if="currentSort === 'what'"
+                                                              v-bind:class="sortIconClass"></i>
+                            </th>
+                            <th @click="sort('due')">Due <i v-if="currentSort === 'due'"
+                                                            v-bind:class="sortIconClass"></i>
+                            </th>
+                            <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
+                                                                    v-bind:class="sortIconClass"></i></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(item, idx) in sortedItems" :key="idx">
+                            <td>{{item.kind}}</td>
+                            <td>{{item.who}}</td>
+                            <td>{{item.what}}</td>
+                            <td>{{item.due}}</td>
+                            <td>{{item.created | humanize}}</td>
+                            <td>
+                                <button class="btn btn-sm" @click="resolve(item)">resolve</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="show-sm">
+                    <table class="table">
+                        <tbody>
+                        <tr v-for="(item, idx) in sortedItems" :key="idx">
+                            <td>
+                                <div class="mobile-table-td">
+                                    {{item.what}} <br>
+                                    {{item.kind}} to {{item.who}} due {{item.due}}
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm" @click="resolve(item)">resolve</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
