@@ -30,7 +30,7 @@
                 </form>
             </div>
             <div class="debt-items column col-lg-12 col-6 col-mx-auto">
-                <div class="layered-paper">
+                <div class="layered-paper" v-if="items.length">
                     <h5>LEDGER</h5>
                     <div class="hide-sm">
                         <table class="table table-striped">
@@ -86,6 +86,10 @@
                         </table>
                     </div>
                 </div>
+                <div v-else class="layered-paper">
+                    <h3>You are debt free.</h3>
+                </div>
+
             </div>
         </div>
     </div>
