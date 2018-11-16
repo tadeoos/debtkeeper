@@ -30,66 +30,67 @@
         </form>
       </div>
       <div class="debt-items column col-lg-12 col-6 col-mx-auto">
-        
-        <div class="layered-paper" v-if="items.length">
-          <h5>LEDGER</h5>
-          <div class="hide-sm">
-            <table class="table table-striped">
-              <thead>
-              <tr>
-                <th @click="sort('kind')">Kind <i v-if="currentSort === 'kind'"
+        <transition name="fade" mode="out-in">
+          <div class="layered-paper" v-if="items.length" key="debts-exists">
+            <h5>LEDGER</h5>
+            <div class="hide-sm">
+              <table class="table table-striped">
+                <thead>
+                <tr>
+                  <th @click="sort('kind')">Kind <i v-if="currentSort === 'kind'"
+                                                    v-bind:class="sortIconClass"></i>
+                  </th>
+                  <th @click="sort('who')">Who <i v-if="currentSort === 'who'"
                                                   v-bind:class="sortIconClass"></i>
-                </th>
-                <th @click="sort('who')">Who <i v-if="currentSort === 'who'"
-                                                v-bind:class="sortIconClass"></i>
-                </th>
-                <th @click="sort('what')">What <i v-if="currentSort === 'what'"
+                  </th>
+                  <th @click="sort('what')">What <i v-if="currentSort === 'what'"
+                                                    v-bind:class="sortIconClass"></i>
+                  </th>
+                  <th @click="sort('due')">Due <i v-if="currentSort === 'due'"
                                                   v-bind:class="sortIconClass"></i>
-                </th>
-                <th @click="sort('due')">Due <i v-if="currentSort === 'due'"
-                                                v-bind:class="sortIconClass"></i>
-                </th>
-                <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
-                                                        v-bind:class="sortIconClass"></i></th>
-                <th></th>
-              </tr>
-              </thead>
-              <transition-group name="debt-list" tag="tbody">
+                  </th>
+                  <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
+                                                          v-bind:class="sortIconClass"></i></th>
+                  <th></th>
+                </tr>
+                </thead>
+                <transition-group name="debt-list" tag="tbody">
+                  <tr v-for="(item, idx) in sortedItems" :key="idx">
+                    <td>{{item.kind}}</td>
+                    <td>{{item.who}}</td>
+                    <td>{{item.what}}</td>
+                    <td>{{item.due}}</td>
+                    <td>{{item.created | humanize}}</td>
+                    <td>
+                      <button class="btn btn-sm" @click="resolve(item)">resolve</button>
+                    </td>
+                  </tr>
+                </transition-group>
+              </table>
+            </div>
+            <div class="show-sm">
+              <table class="table">
+                <tbody>
                 <tr v-for="(item, idx) in sortedItems" :key="idx">
-                  <td>{{item.kind}}</td>
-                  <td>{{item.who}}</td>
-                  <td>{{item.what}}</td>
-                  <td>{{item.due}}</td>
-                  <td>{{item.created | humanize}}</td>
+                  <td>
+                    <div class="mobile-table-td">
+                      <b>{{item.what}}</b> <br>
+                      {{item.kind}} to {{item.who}} <br>
+                      due {{item.due}}
+                    </div>
+                  </td>
                   <td>
                     <button class="btn btn-sm" @click="resolve(item)">resolve</button>
                   </td>
                 </tr>
-              </transition-group>
-            </table>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="show-sm">
-            <table class="table">
-              <tbody>
-              <tr v-for="(item, idx) in sortedItems" :key="idx">
-                <td>
-                  <div class="mobile-table-td">
-                    <b>{{item.what}}</b> <br>
-                    {{item.kind}} to {{item.who}} <br>
-                    due {{item.due}}
-                  </div>
-                </td>
-                <td>
-                  <button class="btn btn-sm" @click="resolve(item)">resolve</button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
+          <div v-else class="layered-paper" key="no-debts">
+            <h3>You are debt free.</h3>
           </div>
-        </div>
-        <div v-else class="layered-paper">
-          <h3>You are debt free.</h3>
-        </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -232,5 +233,11 @@
   {
     opacity: 0;
     transform: translateY(30px);
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s ease-in-out;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0
   }
 </style>
