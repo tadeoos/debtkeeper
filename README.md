@@ -1,28 +1,46 @@
-# Debtkeeper
+![logo](frontend/src/assets/logo192.png)
 
 Simple web app to keep track of your debts.
 
-## Project setup
+## Frontend
+
+```
+cd frontend
+```
+
+### Project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+#### Compiles and hot-reloads for development
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+#### Compiles and minifies for production
 ```
 npm run build
 ```
 
-### Run your tests
+#### Run your tests
 ```
 npm run test
 ```
 
-### Lints and fixes files
+#### Lints and fixes files
 ```
 npm run lint
+```
+
+## Backend
+
+```
+cd backend
+```
+
+###
+```bash
+# after activation of virtual environment
+pip install -r requirements.txt
 ```
