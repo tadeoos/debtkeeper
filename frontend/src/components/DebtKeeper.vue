@@ -232,10 +232,10 @@
   .debt-list-enter, .debt-list-leave-to /* .list-leave-active below version 2.1.8 */
   {
     opacity: 0;
-    transform: translateY(30px);
+    /*transform: translateY(10px);*/
   }
   .fade-enter-active, .fade-leave-active {
-    transition: opacity .3s ease-in-out;
+    transition: opacity .2s ease-in-out;
   }
   .fade-enter, .fade-leave-to {
     opacity: 0
