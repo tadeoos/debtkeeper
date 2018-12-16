@@ -105,7 +105,7 @@
     name: "DebtItem",
     data() {
       return {
-        currentSort: 'created',
+        currentSort: 'due',
         currentSortDir: 'asc',
         what: '',
         due: this.today(),
