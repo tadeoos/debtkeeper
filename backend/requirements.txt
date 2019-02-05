@@ -1,4 +1,4 @@
-responder==1.1.2
+responder==1.2.0
 pony==0.7.6
 pyjwt==1.6.4
 bcrypt==3.1.5

@@ -1,9 +1,12 @@
 import datetime
+import json
 
 from decouple import config
-from fbcrypt import generate_password_hash
 import jwt
 from pony import orm
+
+from fbcrypt import generate_password_hash
+from schemas import DebtItemSchema
 
 db = orm.Database()
 
@@ -30,7 +33,7 @@ class User(db.Entity):
         """
         try:
             payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, hours=0, seconds=0),
                 'iat': datetime.datetime.utcnow(),
                 'sub': user_id or self.id
             }
@@ -60,6 +63,10 @@ class User(db.Entity):
             return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
             return 'Invalid token. Please log in again.'
+
+    def get_serialized_debts(self):
+        return [di.serialize() for di in self.debts]
+
 
 
 class BlacklistToken(db.Entity):
@@ -97,3 +104,13 @@ class DebtItem(db.Entity):
 
     def before_insert(self):
         self.created = datetime.datetime.now()
+
+    def serialize(self):
+        schema = DebtItemSchema()
+        return schema.dump(self).data
+
+    @classmethod
+    def from_json(cls, data):
+        schema = DebtItemSchema()
+        schema.load(data)
+        return cls(**data)

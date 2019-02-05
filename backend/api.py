@@ -4,12 +4,21 @@ import responder
 from decouple import config
 
 from fbcrypt import check_password_hash
-from models import User, BlacklistToken
+from models import User, BlacklistToken, DebtItem
 from pony.orm import db_session
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+logger.addHandler(ch)
 
-api = responder.API()
+api = responder.API(cors=True,
+                    cors_params={
+                        'allow_origins': ['*'],
+                        'allow_methods': ['GET', 'POST'],
+                        'allow_headers': ['*']
+                    })
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
@@ -27,7 +36,42 @@ def register_new_user(username, password):
             return False, {}
         user = User(name=username, password=password)
         user.flush()
-        return True, {'auth_token': user.encode_auth_token()}
+        return True, {'token': user.encode_auth_token()}
+
+
+def get_user_from_headers(headers):
+    auth_header = headers.get('Authorization')
+    response = 'Provide a valid auth token'
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        auth_token = ''
+    if auth_token:
+        with db_session:
+            response = User.decode_auth_token(auth_token)
+            if isinstance(response, int):
+                with db_session:
+                    return True, User.get(id=response)
+    return False, response
+
+
+@api.route("/api/items")
+class ItemResource:
+    def on_get(self, req, resp):
+        with db_session:
+            suc, user = get_user_from_headers(req.headers)
+            if suc:
+                resp.status_code = api.status_codes.HTTP_200
+                resp.media = user.get_serialized_debts()
+            else:
+                resp.status_code = api.status_codes.HTTP_401
+
+    async def on_post(self, req, resp):
+        data = await req.media(format='json')
+        with db_session:
+            DebtItem.from_json(data)
+
+        resp.status_code = api.status_codes.HTTP_201
 
 
 @api.route("/auth/register")
@@ -58,7 +102,8 @@ async def login(req, resp):
         data = await req.media(format='json')
         username = data.get('username')
         password = data.get('password')
-        user = User.get(name=username)
+        with db_session:
+            user = User.get(name=username)
         if user:
             if check_password_hash(user.password, password):
                 token = user.encode_auth_token()
@@ -66,7 +111,7 @@ async def login(req, resp):
                 resp.media = {
                     'status': 'success',
                     'message': 'Successfully logged in',
-                    'auth_token': token.decode()
+                    'token': token.decode()
                 }
             else:
                 resp.status_code = api.status_codes.HTTP_422
@@ -118,4 +163,4 @@ async def logout(req, resp):
 
 
 if __name__ == "__main__":
-    api.run(debug=DEBUG)
+    api.run(debug=True, logger=logger)
