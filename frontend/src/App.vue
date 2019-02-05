@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <DebtKeeper/>
+    <!--<DebtKeeper/>-->
+    <router-view/>
   </div>
 </template>
 
 <script>
-import DebtKeeper from './components/DebtKeeper.vue'
-
 export default {
-  name: 'app',
-  components: {
-    DebtKeeper
-  }
+  name: 'app'
+  // components: {
+  //   DebtKeeper
+  // }
 }
 </script>
 

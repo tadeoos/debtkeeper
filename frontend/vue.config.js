@@ -1,3 +1,13 @@
 module.exports = {
-  baseUrl: '/debtkeeper/',
-}
+  baseUrl: process.env.NODE_ENV === 'production'
+      ? '/debtkeeper/'
+      : '',
+  // devServer: {
+  //   proxy: {
+  //     '/*': {
+  //       target: 'http://localhost:5042',
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // }
+};
