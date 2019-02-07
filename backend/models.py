@@ -21,6 +21,8 @@ class User(db.Entity):
     debts = orm.Set("DebtItem")
     created = orm.Optional(datetime.datetime)
 
+    VALID_TOKEN_TIME = 3600
+
     def before_insert(self):
         hashed_password = generate_password_hash(self.password).decode()
         self.password = hashed_password
@@ -33,7 +35,7 @@ class User(db.Entity):
         """
         try:
             payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, hours=0, seconds=0),
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=self.VALID_TOKEN_TIME),
                 'iat': datetime.datetime.utcnow(),
                 'sub': user_id or self.id
             }
@@ -68,7 +70,6 @@ class User(db.Entity):
         return [di.serialize() for di in self.debts]
 
 
-
 class BlacklistToken(db.Entity):
     """
     Token Model for storing JWT tokens
@@ -84,23 +85,23 @@ class BlacklistToken(db.Entity):
     @staticmethod
     def check_blacklist(auth_token):
         # check whether auth token has been blacklisted
-        res = BlacklistToken.get(token=str(auth_token))
-        if res:
+        if BlacklistToken.get(token=str(auth_token)):
             return True
-        else:
-            return False
+        return False
 
 
 class DebtItem(db.Entity):
     _table_ = 'debts'
 
-    name = orm.Required(str)
-    kind = orm.Required(str)
-    due_date = orm.Required(datetime.date)
+    kind = orm.Required(str, py_check=lambda val: val in ['loan', 'debt'])
+    due_date = orm.Required(datetime.date, py_check=lambda val: val > datetime.datetime.now())
     created = orm.Optional(datetime.datetime)
     who = orm.Required(str)
     what = orm.Required(str)
+    resolved = orm.Required(bool, default=False)
     user = orm.Required(User)
+
+    orm.composite_key(who, what, due_date, kind)
 
     def before_insert(self):
         self.created = datetime.datetime.now()
