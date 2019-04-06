@@ -46,7 +46,7 @@
                   <th @click="sort('what')">What <i v-if="currentSort === 'what'"
                                                     v-bind:class="sortIconClass"></i>
                   </th>
-                  <th @click="sort('due')">Due <i v-if="currentSort === 'due'"
+                  <th @click="sort('due_date')">Due <i v-if="currentSort === 'due_date'"
                                                   v-bind:class="sortIconClass"></i>
                   </th>
                   <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
@@ -59,7 +59,7 @@
                     <td>{{item.kind}}</td>
                     <td>{{item.who}}</td>
                     <td>{{item.what}}</td>
-                    <td>{{item.due}}</td>
+                    <td>{{item.due_date}}</td>
                     <td>{{item.created | humanize}}</td>
                     <td>
                       <button class="btn btn-sm" @click="resolve(item)">resolve</button>
@@ -97,8 +97,14 @@
 </template>
 
 <script>
+  import {postNewItem} from '@/api'
+
   function dateToStr(date) {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    function pad(n) {
+      return n < 10 ? '0' + n : n
+    }
+    var date = new Date(date);
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
   }
 
   export default {
@@ -158,12 +164,16 @@
 
         const item = {
           what: this.what,
-          due: this.due,
+          due_date: this.due,
           kind: this.kind,
           who: this.who,
-          created: new Date(),
+          user: this.$store.state.userId
         };
-        this.$store.commit('addItem', item);
+
+        postNewItem(item)
+            .then((response) => {
+              this.$store.dispatch('loadItems');
+            });
 
         this.what = '';
         this.who = '';
@@ -180,6 +190,9 @@
       resolve: function (item) {
         this.$store.commit('resolveItem', item);
       }
+    },
+    mounted: function () {
+      this.$store.dispatch('loadItems');
     }
   }
 </script>
