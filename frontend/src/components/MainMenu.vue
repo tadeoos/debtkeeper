@@ -19,7 +19,7 @@
             <router-link :to="{name: 'Ledger'}" exact>Add item</router-link>
           </li>
           <li class="menu-item">
-            <router-link :to="{name: 'Ledger'}" exact>About</router-link>
+            <router-link :to="{name: 'About'}" exact>About</router-link>
           </li>
         </ul>
       </div>

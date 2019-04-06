@@ -5,6 +5,7 @@ import store from '@/store'
 import DebtKeeper from '../components/DebtKeeper.vue'
 import LoginPage from "../components/LoginPage";
 import MainMenu from "../components/MainMenu";
+import AboutPage from "../components/AboutPage";
 
 
 Vue.use(Router);
@@ -22,6 +23,12 @@ export default new Router({
     name: 'Login',
     components: {
       default: LoginPage,
+    },
+  }, {
+    path: '/about',
+    name: 'About',
+    components: {
+      default: AboutPage,
     },
   },
     {
