@@ -40,6 +40,7 @@ def check_token(req, resp):
 
 @api.route("/api/items")
 class ItemResource:
+
     def on_get(self, req, resp):
         with db_session:
             suc, user = get_user_from_headers(req.headers)
@@ -73,4 +74,4 @@ async def logout(req, resp):
 
 
 if __name__ == "__main__":
-    api.run(debug=True, logger=logger)
+    api.run(debug=DEBUG, logger=logger)

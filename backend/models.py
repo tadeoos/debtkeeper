@@ -93,8 +93,8 @@ class BlacklistToken(db.Entity):
 class DebtItem(db.Entity):
     _table_ = 'debts'
 
-    kind = orm.Required(str, py_check=lambda val: val in ['loan', 'debt'])
-    due_date = orm.Required(datetime.date, py_check=lambda val: val > datetime.datetime.now())
+    kind = orm.Required(str, py_check=lambda val: val.lower() in ['loan', 'debt'])
+    due_date = orm.Required(datetime.date, py_check=lambda val: val > datetime.datetime.now().date())
     created = orm.Optional(datetime.datetime)
     who = orm.Required(str)
     what = orm.Required(str)

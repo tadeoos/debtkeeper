@@ -81,7 +81,7 @@ async def login_(req, resp):
                 token = user.encode_auth_token()
                 resp.status_code = status_codes.HTTP_200
                 resp.media = {
-                    'status': 'success',
+                    'id': user.id,
                     'message': 'Successfully logged in',
                     'token': token.decode()
                 }
