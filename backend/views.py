@@ -43,21 +43,21 @@ def logout_(req, resp):
     if req.method == 'post':
         auth_token = get_token(req.headers)
         if auth_token:
-            response = User.decode_auth_token(auth_token)
-            if not isinstance(response, str):
-                with db_session:
+            with db_session:
+                response = User.decode_auth_token(auth_token)
+                if not isinstance(response, str):
                     BlacklistToken(token=auth_token)
-                resp.status_code = status_codes.HTTP_200
-                resp.media = {
-                    'status': 'success',
-                    'message': 'Successfully logged out',
-                }
-            else:
-                resp.status_code = status_codes.HTTP_401
-                resp.media = {
-                    'status': 'fail',
-                    'message': response
-                }
+                    resp.status_code = status_codes.HTTP_200
+                    resp.media = {
+                        'status': 'success',
+                        'message': 'Successfully logged out',
+                    }
+                else:
+                    resp.status_code = status_codes.HTTP_401
+                    resp.media = {
+                        'status': 'fail',
+                        'message': response
+                    }
         else:
             resp.status_code = status_codes.HTTP_403
             resp.media = {

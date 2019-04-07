@@ -1,15 +1,17 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {authenticate, register, getItems} from '@/api'
+import {authenticate, register, getItems, logout} from '@/api'
 import {isValidJwt, EventBus} from '@/utils'
 
 Vue.use(Vuex);
+
+const tokenKey = 'token:debtkeeper';
 
 export default new Vuex.Store({
   state: {
     items: [],
     userId: null,
-    jwt: localStorage.token || ''
+    jwt: localStorage.getItem(tokenKey) || ''
   },
   mutations: {
     setItems(state, payload) {
@@ -22,8 +24,12 @@ export default new Vuex.Store({
     setJwtToken(state, payload) {
       console.log('setJwtToken payload = ', payload);
       let token = payload.jwt.token;
-      localStorage.token = token;
+      localStorage.setItem(tokenKey, token);
       state.jwt = token
+    },
+    clearToken(state) {
+      localStorage.removeItem(tokenKey);
+      state.jwt = '';
     }
   },
   actions: {
@@ -38,6 +44,15 @@ export default new Vuex.Store({
             EventBus.$emit('failedAuthentication', error)
           })
     },
+    logout(context) {
+      return logout(context.state.jwt)
+          .then(response => {
+                context.commit('clearToken');
+              })
+          .catch(error => {
+            console.log('Error logging out: ', error);
+          })
+    },
     register(context, userData) {
       return register(userData)
           .then(context.dispatch('login', userData))
@@ -48,8 +63,8 @@ export default new Vuex.Store({
     },
     loadItems(context) {
       return getItems(context.state.jwt)
-          .then((response) => {
-            context.commit('setItems', { items: response.data })
+          .then(response => {
+            context.commit('setItems', {items: response.data})
           })
     }
   },
