@@ -19,7 +19,7 @@
                                                     v-bind:class="sortIconClass"></i>
                   </th>
                   <th @click="sort('due_date')">Due <i v-if="currentSort === 'due_date'"
-                                                  v-bind:class="sortIconClass"></i>
+                                                       v-bind:class="sortIconClass"></i>
                   </th>
                   <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
                                                           v-bind:class="sortIconClass"></i></th>
@@ -27,14 +27,14 @@
                 </tr>
                 </thead>
                 <transition-group name="debt-list" tag="tbody">
-                  <tr v-for="(item, idx) in sortedItems" :key="idx">
+                  <tr v-for="(item, idx) in sortedItems" :key="idx" :class="overdueClass(item)">
                     <td>{{item.kind}}</td>
                     <td>{{item.who}}</td>
                     <td>{{item.what}}</td>
                     <td>{{item.due_date}}</td>
                     <td>{{item.created | humanize}}</td>
                     <td>
-                      <button class="btn btn-sm" @click="resolve(item)">resolve</button>
+                      <button v-if="!item.resolved"  class="btn btn-sm" @click="resolve(item)">resolve</button>
                     </td>
                   </tr>
                 </transition-group>
@@ -43,12 +43,12 @@
             <div class="show-sm">
               <table class="table">
                 <tbody>
-                <tr v-for="(item, idx) in sortedItems" :key="idx">
+                <tr v-for="(item, idx) in sortedItems" :key="idx" :class="overdueClass(item)">
                   <td>
                     <div class="mobile-table-td">
                       <b>{{item.what}}</b> <br>
                       {{item.kind}} to {{item.who}} <br>
-                      due {{item.due}}
+                      due {{item.due_date}}
                     </div>
                   </td>
                   <td>
@@ -111,7 +111,7 @@
           if (a[this.currentSort] > b[this.currentSort]) return modifier;
           return 0;
         });
-      },
+      }
     },
     methods: {
       today: function () {
@@ -127,7 +127,14 @@
         this.currentSort = column;
       },
       resolve: function (item) {
-        this.$store.commit('resolveItem', item);
+        this.$store.dispatch('resolveItem', item);
+      },
+      overdueClass: function (item) {
+        let result = [];
+        if (new Date(item.due_date) < new Date() && !item.resolved){
+          result.push('text-error')
+        }
+        return result;
       }
     },
     mounted: function () {
@@ -142,15 +149,19 @@
       margin: 0 auto;
     }
   }
+
   td, th {
     padding: 5px;
   }
+
   th {
     cursor: pointer;
+
     i {
       margin-bottom: 4px;
     }
   }
+
   .layered-paper {
     padding: 2em 3px;
     @media screen and (min-width: 605px) {
@@ -164,23 +175,29 @@
     0 20px 0 -10px white, /* The third layer */
     0 20px 1px -9px rgba(0, 0, 0, 0.15); /* The third layer shadow */
   }
+
   .input-group {
     margin-bottom: 2px;
   }
+
   .mobile-table-td {
     text-align: left;
   }
+
   .debt-list-enter-active, .debt-list-leave-active {
     transition: all 800ms;
   }
+
   .debt-list-enter, .debt-list-leave-to /* .list-leave-active below version 2.1.8 */
   {
     opacity: 0;
     /*transform: translateY(10px);*/
   }
+
   .fade-enter-active, .fade-leave-active {
     transition: opacity .2s ease-in-out;
   }
+
   .fade-enter, .fade-leave-to {
     opacity: 0
   }

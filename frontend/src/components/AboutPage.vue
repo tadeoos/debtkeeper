@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="columns">
-      <div class="column col-lg-12 col-4 col-mx-auto">
+      <div class="column col-6 col-sm-12 col-mx-auto">
         <div class="panel">
           <div class="panel-header">
             <NavGroup active-el="about"/>
@@ -19,7 +19,7 @@
               This web app helps you keep track of anything that you loaned or borrowed.
             </p>
             <p>
-              You can save it on your mobile device and use it as any other regular app.
+              You can save it on your mobile device and use it as it was a normal mobile app.
             </p>
             <p>
               It was created by <a href="https://tadek.tele.com.pl">Tadek Teleżyński</a>.

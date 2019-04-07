@@ -18,11 +18,9 @@ export default new Vuex.Store({
       state.items = payload.items;
     },
     setUserData(state, payload) {
-      console.log('setUserData payload = ', payload);
       state.userId = payload.id.id
     },
     setJwtToken(state, payload) {
-      console.log('setJwtToken payload = ', payload);
       let token = payload.jwt.token;
       localStorage.setItem(tokenKey, token);
       state.jwt = token
@@ -66,6 +64,9 @@ export default new Vuex.Store({
           .then(response => {
             context.commit('setItems', {items: response.data})
           })
+    },
+    resolveItem(context, item) {
+      console.log("item resolving not implemented");
     }
   },
   getters: {

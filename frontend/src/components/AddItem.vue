@@ -24,7 +24,7 @@
                    v-model="what">
           </div>
           <div class="input-group" v-bind:class="{ 'has-error': dueError }">
-            <span class="input-group-addon">When</span>
+            <span class="input-group-addon tooltip tooltip-bottom" data-tooltip="Set a due date for this item">When</span>
             <input class="form-input" id="due" type="date" v-model="due">
             <button class="btn btn-primary" @click.stop.prevent="addDebtItem">add</button>
           </div>
