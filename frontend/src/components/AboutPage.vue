@@ -4,6 +4,7 @@
       <div class="column col-lg-12 col-4 col-mx-auto">
         <div class="panel">
           <div class="panel-header">
+            <NavGroup active-el="about"/>
             <div class="panel-title">
               <h5>About DebtKeeper</h5>
             </div>
@@ -25,9 +26,6 @@
             </p>
           </div>
           <div class="panel-footer">
-            <router-link :to="{name: 'Home'}" exact>
-              <i class="icon icon-back"></i>
-            </router-link>
             <!-- buttons or inputs -->
           </div>
         </div>
@@ -37,13 +35,19 @@
 </template>
 
 <script>
+  import NavGroup from "./NavGroup";
+
   export default {
-    name: "AboutPage"
+    name: "AboutPage",
+    components: {
+      NavGroup
+    }
   }
 </script>
 
 <style scoped>
   .panel{
     background: #ffffff;
+    margin-top: 1em;
   }
 </style>

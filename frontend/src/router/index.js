@@ -39,8 +39,7 @@ export default new Router({
     },
     beforeEnter(to, from, next) {
       if (!store.getters.isAuthenticated) {
-        // next('/login')
-        next()
+        next('/login')
       } else {
         next()
       }
@@ -54,8 +53,7 @@ export default new Router({
       },
       beforeEnter (to, from, next) {
         if (!store.getters.isAuthenticated) {
-          // next('/login')
-          next()
+          next('/login')
         } else {
           next()
         }

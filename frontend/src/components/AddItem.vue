@@ -37,6 +37,7 @@
 <script>
   import NavGroup from './NavGroup'
   import {postNewItem} from '@/api'
+  import {dateToStr} from '@/utils'
 
   export default {
     name: "AddItem",
@@ -54,34 +55,6 @@
         dueError: false,
       };
     },
-    filters: {
-      humanize: function (value) {
-        return dateToStr(value);
-      }
-    },
-    // computed: {
-    //   sortIconClass: function () {
-    //     const asc = this.currentSortDir === 'asc';
-    //     return {
-    //       icon: true,
-    //       'icon-arrow-down': !asc,
-    //       'icon-arrow-up': asc,
-    //     }
-    //   },
-    //   items: function () {
-    //     return this.$store.state.items;
-    //   },
-    //   sortedItems: function () {
-    //     let items = this.$store.state.items;
-    //     return items.sort((a, b) => {
-    //       let modifier = 1;
-    //       if (this.currentSortDir === 'desc') modifier = -1;
-    //       if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-    //       if (a[this.currentSort] > b[this.currentSort]) return modifier;
-    //       return 0;
-    //     });
-    //   },
-    // },
     methods: {
       today: function () {
         let date = new Date();

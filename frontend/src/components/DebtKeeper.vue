@@ -1,10 +1,9 @@
 <template>
   <div class="container">
     <div class="columns">
-      <div class="debt-items column col-lg-12 col-5 col-mx-auto">
+      <div class="debt-items column col-9 col-sm-12 col-mx-auto">
         <transition name="fade" mode="out-in">
           <div class="layered-paper" v-if="items.length" key="debts-exists">
-            <!--<h5>LEDGER</h5>-->
             <NavGroup active-el="ledger"/>
             <div class="hide-sm">
               <table class="table table-striped">
@@ -61,6 +60,7 @@
             </div>
           </div>
           <div v-else class="layered-paper" key="no-debts">
+            <NavGroup active-el="ledger"/>
             <h3>You are debt free.</h3>
           </div>
         </transition>
@@ -72,14 +72,7 @@
 <script>
   import NavGroup from './NavGroup'
   import {postNewItem} from '@/api'
-
-  function dateToStr(date) {
-    function pad(n) {
-      return n < 10 ? '0' + n : n
-    }
-    var date = new Date(date);
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
-  }
+  import {dateToStr} from '@/utils'
 
   export default {
     name: "DebtItem",
@@ -88,7 +81,7 @@
     },
     data() {
       return {
-        currentSort: 'due',
+        currentSort: 'due_date',
         currentSortDir: 'asc',
       };
     },
@@ -144,10 +137,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .debt-items {
-    /*padding-top: 2em;*/
-    margin: 0 auto;
-  }
   .debt-items {
     table {
       margin: 0 auto;

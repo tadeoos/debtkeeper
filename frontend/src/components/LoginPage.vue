@@ -2,11 +2,7 @@
   <div class="container">
     <div class="columns">
       <div class="column col-lg-12 col-4 col-mx-auto">
-        <div class="menu-link">
-          <router-link :to="{name: 'Home'}" exact>
-            <i class="icon icon-menu"></i>
-          </router-link>
-        </div>
+        <NavGroup active-el=""/>
         <form>
           <div class="form-group">
             <label class="form-label" for="id_username">Username</label>
@@ -38,8 +34,13 @@
 
 <script>
   import {EventBus} from '@/utils'
+  import NavGroup from "./NavGroup";
+
   export default {
     name: "LoginPage",
+    components: {
+      NavGroup
+    },
     data() {
       return {
         username: '',
@@ -60,14 +61,14 @@
     mounted() {
       EventBus.$on('failedRegistering', (msg) => {
         this.errorMsg = msg
-      })
+      });
       EventBus.$on('failedAuthentication', (msg) => {
         this.errorMsg = msg
-      })
+      });
     },
     beforeDestroy() {
-      EventBus.$off('failedRegistering')
-      EventBus.$off('failedAuthentication')
+      EventBus.$off('failedRegistering');
+      EventBus.$off('failedAuthentication');
     }
   }
 </script>
