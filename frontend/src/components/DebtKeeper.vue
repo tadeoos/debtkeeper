@@ -1,38 +1,11 @@
 <template>
   <div class="container">
     <div class="columns">
-      <div class="debt-form column col-lg-12 col-4 col-mx-auto">
-        <form>
-          <div class="input-group">
-            <label class="form-radio">
-              <input type="radio" name="kind" value="Debt" v-model="kind">
-              <i class="form-icon"></i> Debt
-            </label>
-            <label class="form-radio">
-              <input type="radio" name="kind" value="Loan" checked v-model="kind">
-              <i class="form-icon"></i> Loan
-            </label>
-          </div>
-          <div class="input-group" v-bind:class="{ 'has-error': whoError }">
-            <span class="input-group-addon">Who</span>
-            <input class="form-input" type="text" id="who" placeholder="James" v-model="who">
-          </div>
-          <div class="input-group" v-bind:class="{ 'has-error': whatError }">
-            <span class="input-group-addon">What</span>
-            <input class="form-input" type="text" id="what" placeholder="Ulysses or 100$ or..."
-                   v-model="what">
-          </div>
-          <div class="input-group" v-bind:class="{ 'has-error': dueError }">
-            <span class="input-group-addon">When</span>
-            <input class="form-input" id="due" type="date" v-model="due">
-            <button class="btn btn-primary" @click.stop.prevent="addDebtItem">add</button>
-          </div>
-        </form>
-      </div>
-      <div class="debt-items column col-lg-12 col-6 col-mx-auto">
+      <div class="debt-items column col-lg-12 col-5 col-mx-auto">
         <transition name="fade" mode="out-in">
           <div class="layered-paper" v-if="items.length" key="debts-exists">
-            <h5>LEDGER</h5>
+            <!--<h5>LEDGER</h5>-->
+            <NavGroup active-el="ledger"/>
             <div class="hide-sm">
               <table class="table table-striped">
                 <thead>
@@ -97,6 +70,7 @@
 </template>
 
 <script>
+  import NavGroup from './NavGroup'
   import {postNewItem} from '@/api'
 
   function dateToStr(date) {
@@ -109,17 +83,13 @@
 
   export default {
     name: "DebtItem",
+    components: {
+      NavGroup
+    },
     data() {
       return {
         currentSort: 'due',
         currentSortDir: 'asc',
-        what: '',
-        due: this.today(),
-        kind: 'Debt',
-        who: '',
-        whatError: false,
-        whoError: false,
-        dueError: false,
       };
     },
     filters: {
@@ -156,30 +126,6 @@
         date.setDate(date.getDate() + 1);
         return dateToStr(date);
       },
-      addDebtItem: function () {
-        this.dueError = new Date(this.due) < new Date();
-        this.whoError = !this.who;
-        this.whatError = !this.what;
-        if (this.dueError || this.whoError || this.whatError) return;
-
-        const item = {
-          what: this.what,
-          due_date: this.due,
-          kind: this.kind,
-          who: this.who,
-          user: this.$store.state.userId
-        };
-
-        postNewItem(item)
-            .then((response) => {
-              this.$store.dispatch('loadItems');
-            });
-
-        this.what = '';
-        this.who = '';
-        this.kind = 'Debt';
-        this.due = this.today();
-      },
       sort: function (column) {
         //if column == current sort, reverse
         if (column === this.currentSort) {
@@ -198,12 +144,8 @@
 </script>
 
 <style lang="scss" scoped>
-  .debt-form {
-    padding-top: 2em;
-    padding-bottom: 2em;
-  }
   .debt-items {
-    padding-top: 2em;
+    /*padding-top: 2em;*/
     margin: 0 auto;
   }
   .debt-items {
@@ -221,7 +163,7 @@
     }
   }
   .layered-paper {
-    padding: 20px 3px;
+    padding: 2em 3px;
     @media screen and (min-width: 605px) {
       padding-right: 20px;
       padding-left: 20px;

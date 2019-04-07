@@ -8,15 +8,15 @@
           </li>
           <!-- menu item standard -->
           <li class="menu-item">
-            <router-link :to="{name: 'Login'}" exact>
-              Login
-            </router-link>
-          </li>
-          <li class="menu-item">
             <router-link :to="{name: 'Ledger'}" exact>Ledger</router-link>
           </li>
           <li class="menu-item">
-            <router-link :to="{name: 'Ledger'}" exact>Add item</router-link>
+            <router-link :to="{name: 'AddItem'}" exact>Add item</router-link>
+          </li>
+          <li class="menu-item">
+            <router-link :to="{name: 'Login'}" exact>
+              Login
+            </router-link>
           </li>
           <li class="menu-item">
             <router-link :to="{name: 'About'}" exact>About</router-link>

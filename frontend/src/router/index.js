@@ -6,6 +6,7 @@ import DebtKeeper from '../components/DebtKeeper.vue'
 import LoginPage from "../components/LoginPage";
 import MainMenu from "../components/MainMenu";
 import AboutPage from "../components/AboutPage";
+import AddItem from "../components/AddItem";
 
 
 Vue.use(Router);
@@ -30,6 +31,20 @@ export default new Router({
     components: {
       default: AboutPage,
     },
+  }, {
+    path: '/add',
+    name: 'AddItem',
+    components: {
+      default: AddItem,
+    },
+    beforeEnter(to, from, next) {
+      if (!store.getters.isAuthenticated) {
+        // next('/login')
+        next()
+      } else {
+        next()
+      }
+    }
   },
     {
       path: '/ledger',
@@ -39,7 +54,8 @@ export default new Router({
       },
       beforeEnter (to, from, next) {
         if (!store.getters.isAuthenticated) {
-          next('/login')
+          // next('/login')
+          next()
         } else {
           next()
         }
