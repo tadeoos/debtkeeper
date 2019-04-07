@@ -9,7 +9,7 @@
               <table class="table table-striped">
                 <thead>
                 <tr>
-                  <th @click="sort('kind')">Kind <i v-if="currentSort === 'kind'"
+                  <th @click="sort('kind')">Type <i v-if="currentSort === 'kind'"
                                                     v-bind:class="sortIconClass"></i>
                   </th>
                   <th @click="sort('who')">Who <i v-if="currentSort === 'who'"
@@ -18,7 +18,7 @@
                   <th @click="sort('what')">What <i v-if="currentSort === 'what'"
                                                     v-bind:class="sortIconClass"></i>
                   </th>
-                  <th @click="sort('due_date')">Due <i v-if="currentSort === 'due_date'"
+                  <th @click="sort('due_date')">When <i v-if="currentSort === 'due_date'"
                                                        v-bind:class="sortIconClass"></i>
                   </th>
                   <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
@@ -137,7 +137,7 @@
         return result;
       }
     },
-    mounted: function () {
+    beforeCreate: function () {
       this.$store.dispatch('loadItems');
     }
   }

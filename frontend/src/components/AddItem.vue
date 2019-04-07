@@ -10,7 +10,7 @@
               <i class="form-icon"></i> Debt
             </label>
             <label class="form-radio">
-              <input type="radio" name="kind" value="Loan" checked v-model="kind">
+              <input type="radio" name="kind" value="Loan" v-model="kind">
               <i class="form-icon"></i> Loan
             </label>
           </div>
@@ -94,27 +94,7 @@
     padding-top: 2em;
     padding-bottom: 2em;
   }
-
-  .layered-paper {
-    padding: 20px 3px;
-    @media screen and (min-width: 605px) {
-      padding-right: 20px;
-      padding-left: 20px;
-    }
-    background: white;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), /* The top layer shadow */
-    0 10px 0 -5px white, /* The second layer */
-    0 10px 1px -4px rgba(0, 0, 0, 0.15), /* The second layer shadow */
-    0 20px 0 -10px white, /* The third layer */
-    0 20px 1px -9px rgba(0, 0, 0, 0.15); /* The third layer shadow */
-  }
-
   .input-group {
     margin-bottom: 2px;
   }
-
-  .menu-link {
-    margin-top: 1.2em;
-  }
-
 </style>
