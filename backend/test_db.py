@@ -1,4 +1,4 @@
-from models import db
+from models import define_database
 
-db.bind(provider='sqlite', filename='debtkeeper_testing.sqlite', create_db=True)
-db.generate_mapping(create_tables=True)
+
+db = define_database(provider='sqlite', filename='test_db.sqlite', create_db=True)

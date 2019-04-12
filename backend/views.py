@@ -1,17 +1,10 @@
-from responder import status_codes
 from pony.orm import db_session
 
-from fbcrypt import check_password_hash
-from models import User, BlacklistToken
-
-
-def register_new_user(username, password):
-    with db_session:
-        if User.get(name=username):
-            return False, {}
-        user = User(name=username, password=password)
-        user.flush()
-        return True, {'token': user.encode_auth_token()}
+from models import (
+    BlacklistToken,
+    User,
+)
+from responder import status_codes
 
 
 def get_token(headers):
@@ -64,57 +57,6 @@ def logout_(req, resp):
                 'status': 'fail',
                 'message': 'Provide a valid auth token'
             }
-    else:
-        resp.status_code = status_codes.HTTP_400
-        resp.media = {'error': 'method not supported'}
-
-
-async def login_(req, resp):
-    if req.method == 'post':
-        data = await req.media(format='json')
-        username = data.get('username')
-        password = data.get('password')
-        with db_session:
-            user = User.get(name=username)
-        if user:
-            if check_password_hash(user.password, password):
-                token = user.encode_auth_token()
-                resp.status_code = status_codes.HTTP_200
-                resp.media = {
-                    'id': user.id,
-                    'message': 'Successfully logged in',
-                    'token': token.decode()
-                }
-            else:
-                resp.status_code = status_codes.HTTP_422
-                resp.media = {
-                    'status': 'fail',
-                    'message': 'Wrong password'
-                }
-        else:
-            resp.status_code = status_codes.HTTP_404
-            resp.media = {'error': 'User does not exist'}
-    else:
-        resp.status_code = status_codes.HTTP_400
-        resp.media = {'error': 'method not supported'}
-
-
-async def register_(req, resp):
-    if req.method == 'post':
-        data = await req.media(format='json')
-        username = data.get('username')
-        password = data.get('password')
-        if username and password:
-            success = register_new_user(username, password)
-            if success[0]:
-                resp.status_code = status_codes.HTTP_201
-                resp.media = {'msg': f'User {username} created'}.update(success[1])
-            else:
-                resp.status_code = status_codes.HTTP_422
-                resp.media = {'msg': f'User {username} already exists'}
-        else:
-            resp.status_code = status_codes.HTTP_400
-            resp.media = {'error': 'expecting username and password'}
     else:
         resp.status_code = status_codes.HTTP_400
         resp.media = {'error': 'method not supported'}

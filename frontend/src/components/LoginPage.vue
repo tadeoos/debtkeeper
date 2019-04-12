@@ -48,13 +48,21 @@
         errorMsg: ''
       }
     },
+    computed: {
+      formData() {
+        let bodyFormData = new FormData();
+        bodyFormData.set('username', this.username);
+        bodyFormData.set('password', this.password);
+        return bodyFormData
+      }
+    },
     methods: {
       authenticate() {
-        this.$store.dispatch('login', {username: this.username, password: this.password})
+        this.$store.dispatch('login', this.formData)
             .then(() => this.$router.push('/'))
       },
       register() {
-        this.$store.dispatch('register', {username: this.username, password: this.password})
+        this.$store.dispatch('register', this.formData)
             .then(() => this.$router.push('/'))
       }
     },

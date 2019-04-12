@@ -1,11 +1,19 @@
-from datetime import date
-from marshmallow import Schema, fields, pprint
+from datetime import (
+    date,
+    datetime,
+)
+
+from pydantic import BaseModel
 
 
-class DebtItemSchema(Schema):
-    kind = fields.Str()
-    due_date = fields.Date()
-    created = fields.DateTime()
-    who = fields.Str()
-    what = fields.Str()
-    resolved = fields.Bool()
+class DebtItemSchema(BaseModel):
+    kind: str
+    due_date: date
+    created: datetime
+    who: str
+    what: str
+    resolved: bool
+
+
+class UserSchema(BaseModel):
+    name: str

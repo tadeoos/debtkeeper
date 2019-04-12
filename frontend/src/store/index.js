@@ -18,10 +18,10 @@ export default new Vuex.Store({
       state.items = payload.items;
     },
     setUserData(state, payload) {
-      state.userId = payload.id.id
+      state.userId = payload.id
     },
     setJwtToken(state, payload) {
-      let token = payload.jwt.token;
+      let token = payload.token;
       localStorage.setItem(tokenKey, token);
       state.jwt = token
     },
@@ -34,8 +34,8 @@ export default new Vuex.Store({
     login(context, userData) {
       return authenticate(userData)
           .then(response => {
-            context.commit('setJwtToken', {jwt: response.data});
-            context.commit('setUserData', {id: response.data});
+            context.commit('setJwtToken', {token: response.data.access_token});
+            context.commit('setUserData', {id: response.data.id});
           })
           .catch(error => {
             console.log('Error Authenticating: ', error);

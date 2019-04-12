@@ -23,3 +23,5 @@ yarn-error.log*
 *.sw*
 
 *.sqlite
+
+.pytest_cache
