@@ -35,6 +35,7 @@
                     <td>{{item.created | humanize}}</td>
                     <td>
                       <button v-if="!item.resolved"  class="btn btn-sm" @click="resolve(item)">resolve</button>
+                      <span v-else class="label label-success">resolved</span>
                     </td>
                   </tr>
                 </transition-group>
@@ -71,7 +72,7 @@
 
 <script>
   import NavGroup from './NavGroup'
-  import {postNewItem} from '@/api'
+  import {resolveItem} from '@/api'
   import {dateToStr} from '@/utils'
 
   export default {
@@ -127,7 +128,13 @@
         this.currentSort = column;
       },
       resolve: function (item) {
-        this.$store.dispatch('resolveItem', item);
+        resolveItem(item.id, this.$store.state.jwt)
+            .then(() => {
+              this.$store.dispatch('loadItems');
+            })
+            .catch(error => {
+              console.log("There was error on resolving: ", error);
+            })
       },
       overdueClass: function (item) {
         let result = [];
@@ -148,6 +155,10 @@
     table {
       margin: 0 auto;
     }
+  }
+
+  .filters {
+    display: block;
   }
 
   td, th {

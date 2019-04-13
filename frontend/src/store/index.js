@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {authenticate, register, getItems, logout} from '@/api'
+import {authenticate, register, getItems, logout, resolveItem} from '@/api'
 import {isValidJwt, EventBus} from '@/utils'
 
 Vue.use(Vuex);
@@ -11,6 +11,12 @@ export default new Vuex.Store({
   state: {
     items: [],
     userId: null,
+    ledgerFilters: {
+      'loan': true,
+      'debt': true,
+      'resolved': true,
+      'unresolved': true
+    },
     jwt: localStorage.getItem(tokenKey) || ''
   },
   mutations: {
@@ -28,6 +34,9 @@ export default new Vuex.Store({
     clearToken(state) {
       localStorage.removeItem(tokenKey);
       state.jwt = '';
+    },
+    updateFilters(state, data) {
+      state.ledgerFilters[data.atr] = data.val;
     }
   },
   actions: {
@@ -45,8 +54,8 @@ export default new Vuex.Store({
     logout(context) {
       return logout(context.state.jwt)
           .then(response => {
-                context.commit('clearToken');
-              })
+            context.commit('clearToken');
+          })
           .catch(error => {
             console.log('Error logging out: ', error);
           })
@@ -60,13 +69,14 @@ export default new Vuex.Store({
           })
     },
     loadItems(context) {
-      return getItems(context.state.jwt)
+      return getItems(context.state.jwt, context.state.ledgerFilters)
           .then(response => {
             context.commit('setItems', {items: response.data})
           })
     },
-    resolveItem(context, item) {
-      console.log("item resolving not implemented");
+    filter(context, data){
+      context.commit('updateFilters', data);
+      context.dispatch('loadItems');
     }
   },
   getters: {

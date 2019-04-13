@@ -75,7 +75,7 @@
           user: this.$store.state.userId
         };
 
-        postNewItem(item)
+        postNewItem(item, this.$store.state.jwt)
             .then((response) => {
               this.$store.dispatch('loadItems');
             });
