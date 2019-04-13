@@ -6,12 +6,24 @@ from datetime import (
 from pydantic import BaseModel
 
 
-class DebtItemSchema(BaseModel):
+class BaseDebtItem(BaseModel):
     kind: str
-    due_date: date
-    created: datetime
     who: str
     what: str
+    due_date: date
+
+
+class DebtItemIn(BaseDebtItem):
+    resolved: bool = False
+
+
+class DebtItemOut(BaseDebtItem):
+    id: int
+    resolved: bool
+    created: datetime
+
+
+class DebtItemPatch(BaseModel):
     resolved: bool
 
 
