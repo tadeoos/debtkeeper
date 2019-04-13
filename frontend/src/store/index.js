@@ -14,7 +14,7 @@ export default new Vuex.Store({
     ledgerFilters: {
       'loan': true,
       'debt': true,
-      'resolved': true,
+      'resolved': false,
       'unresolved': true
     },
     jwt: localStorage.getItem(tokenKey) || ''

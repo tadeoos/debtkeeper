@@ -26,14 +26,14 @@
           </li>
           <li class="menu-item">
             <label class="form-checkbox">
-              <input v-model="resolvedFilter" type="checkbox">
-              <i class="form-icon"></i> Resolved
+              <input v-model="unresolvedFilter" type="checkbox">
+              <i class="form-icon"></i> Unresolved
             </label>
           </li>
           <li class="menu-item">
             <label class="form-checkbox">
-              <input v-model="unresolvedFilter" type="checkbox">
-              <i class="form-icon"></i> Unresolved
+              <input v-model="resolvedFilter" type="checkbox">
+              <i class="form-icon"></i> Resolved
             </label>
           </li>
         </ul>
