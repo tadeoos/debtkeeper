@@ -19,6 +19,7 @@ from jwt import (
 )
 from pony.orm import db_session, TransactionIntegrityError
 from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import Response, PlainTextResponse
 from starlette.status import HTTP_403_FORBIDDEN
 
 from auth import (
@@ -58,6 +59,13 @@ db = define_database(provider='sqlite', filename=config('DB_FILE'), create_db=Tr
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
 
+
+@app.exception_handler(HTTPException)
+async def http_exception(request, exc):
+    logger.exception('')
+    if exc.status_code in {204, 304}:
+        return Response(b"", status_code=exc.status_code)
+    return PlainTextResponse(exc.detail, status_code=exc.status_code)
 
 @db_session
 def get_current_user(token: str = Security(oauth2_scheme)):
