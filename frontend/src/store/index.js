@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {authenticate, register, getItems, logout, resolveItem} from '@/api'
 import {isValidJwt, EventBus} from '@/utils'
+import router from '@/router'
 
 Vue.use(Vuex);
 
@@ -73,6 +74,12 @@ export default new Vuex.Store({
           .then(response => {
             context.commit('setItems', {items: response.data})
           })
+          .catch(error => {
+            if (error.response.status === 403){
+              context.commit('clearToken');
+              router.replace({name: "Login"});
+            }
+          })
     },
     filter(context, data){
       context.commit('updateFilters', data);
@@ -80,7 +87,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    isAuthenticated(state) {
+    isAuthenticated: state => () => {
       return isValidJwt(state.jwt)
     }
   },

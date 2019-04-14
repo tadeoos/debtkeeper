@@ -62,6 +62,11 @@
         return dateToStr(date);
       },
       addDebtItem: function () {
+        if (!this.$store.getters.isAuthenticated()) {
+          this.$store.dispatch('logout');
+          this.$router.replace({name: "Login"});
+          return
+        }
         this.dueError = new Date(this.due) < new Date();
         this.whoError = !this.who;
         this.whatError = !this.what;
@@ -76,8 +81,11 @@
         };
 
         postNewItem(item, this.$store.state.jwt)
-            .then((response) => {
+            .then(response => {
               this.$store.dispatch('loadItems');
+            })
+            .catch(error => {
+              console.log(error);
             });
 
         this.what = '';

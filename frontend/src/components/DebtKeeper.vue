@@ -118,6 +118,9 @@
           if (a[this.currentSort] > b[this.currentSort]) return modifier;
           return 0;
         });
+      },
+      authenticated: function () {
+        return this.$store.getters.isAuthenticated()
       }
     },
     methods: {
@@ -127,19 +130,27 @@
         return dateToStr(date);
       },
       sort: function (column) {
-        //if column == current sort, reverse
         if (column === this.currentSort) {
           this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
         }
         this.currentSort = column;
       },
       resolve: function (item) {
+        if (!this.authenticated) {
+          this.$store.dispatch('logout');
+          this.$router.replace({name: "Login"});
+          return
+        }
         resolveItem(item.id, this.$store.state.jwt)
             .then(() => {
               this.$store.dispatch('loadItems');
             })
             .catch(error => {
               console.log("There was error on resolving: ", error);
+              if (error.response.status === 403) {
+                this.$store.dispatch('logout');
+                this.$router.replace({name: "Login"});
+              }
             })
       },
       overdueClass: function (item) {

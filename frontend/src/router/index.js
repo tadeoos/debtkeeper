@@ -41,7 +41,7 @@ export default new Router({
       default: AddItem,
     },
     beforeEnter(to, from, next) {
-      if (!store.getters.isAuthenticated) {
+      if (!store.getters.isAuthenticated()) {
         next('/login')
       } else {
         next()
@@ -55,7 +55,7 @@ export default new Router({
         default: DebtKeeper,
       },
       beforeEnter (to, from, next) {
-        if (!store.getters.isAuthenticated) {
+        if (!store.getters.isAuthenticated()) {
           next('/login')
         } else {
           next()
