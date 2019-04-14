@@ -18,23 +18,24 @@
                   <th @click="sort('what')">What <i v-if="currentSort === 'what'"
                                                     v-bind:class="sortIconClass"></i>
                   </th>
-                  <th @click="sort('due_date')">When <i v-if="currentSort === 'due_date'"
+                  <th @click="sort('created')">When <i v-if="currentSort === 'created'"
                                                        v-bind:class="sortIconClass"></i>
                   </th>
-                  <th @click="sort('created')">Created <i v-if="currentSort === 'created'"
-                                                          v-bind:class="sortIconClass"></i></th>
+                  <th @click="sort('due_date')">Due <i v-if="currentSort === 'due_date'"
+                                                       v-bind:class="sortIconClass"></i>
+                  </th>
                   <th></th>
                 </tr>
                 </thead>
                 <transition-group name="debt-list" tag="tbody">
                   <tr v-for="(item, idx) in sortedItems" :key="idx" :class="overdueClass(item)">
-                    <td>{{item.kind}}</td>
+                    <td>{{item.kind | titleCase}}</td>
                     <td>{{item.who}}</td>
                     <td>{{item.what}}</td>
                     <td>{{item.due_date}}</td>
                     <td>{{item.created | humanize}}</td>
                     <td>
-                      <button v-if="!item.resolved"  class="btn btn-sm" @click="resolve(item)">resolve</button>
+                      <button v-if="!item.resolved" class="btn btn-sm" @click="resolve(item)">resolve</button>
                       <span v-else class="label label-success">resolved</span>
                     </td>
                   </tr>
@@ -87,8 +88,13 @@
       };
     },
     filters: {
-      humanize: function (value) {
+      humanize: (value) => {
         return dateToStr(value);
+      },
+      titleCase: (value) => {
+        return value.replace(/(^|\s)\S/g, function (t) {
+          return t.toUpperCase()
+        });
       }
     },
     computed: {
@@ -138,7 +144,7 @@
       },
       overdueClass: function (item) {
         let result = [];
-        if (new Date(item.due_date) < new Date() && !item.resolved){
+        if (new Date(item.due_date) < new Date() && !item.resolved) {
           result.push('text-error')
         }
         return result;

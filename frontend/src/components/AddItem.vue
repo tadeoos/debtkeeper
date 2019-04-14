@@ -6,11 +6,11 @@
         <form>
           <div class="input-group">
             <label class="form-radio">
-              <input type="radio" name="kind" value="Debt" v-model="kind">
+              <input type="radio" name="kind" value="debt" v-model="kind">
               <i class="form-icon"></i> Debt
             </label>
             <label class="form-radio">
-              <input type="radio" name="kind" value="Loan" v-model="kind">
+              <input type="radio" name="kind" value="loan" v-model="kind">
               <i class="form-icon"></i> Loan
             </label>
           </div>
@@ -24,7 +24,7 @@
                    v-model="what">
           </div>
           <div class="input-group" v-bind:class="{ 'has-error': dueError }">
-            <span class="input-group-addon tooltip tooltip-bottom" data-tooltip="Set a due date for this item">When</span>
+            <span class="input-group-addon tooltip tooltip-bottom" data-tooltip="Set a due date for this item">Due</span>
             <input class="form-input" id="due" type="date" v-model="due">
             <button class="btn btn-primary" @click.stop.prevent="addDebtItem">add</button>
           </div>
@@ -48,7 +48,7 @@
       return {
         what: '',
         due: this.today(),
-        kind: 'Debt',
+        kind: 'debt',
         who: '',
         whatError: false,
         whoError: false,
@@ -82,7 +82,7 @@
 
         this.what = '';
         this.who = '';
-        this.kind = 'Debt';
+        this.kind = 'debt';
         this.due = this.today();
       },
     },
