@@ -4,7 +4,7 @@ Simple web app to keep track of your debts. [See it in action](https://tadek.tel
 
 Frontend made with [Vue.js](https://vuejs.org/) and [Spectre](https://picturepan2.github.io/spectre/index.html).
 
-Backend made with [Responder](http://python-responder.org/en/latest/) and [Pony](https://ponyorm.com/).
+Backend made with [FastAPI](https://fastapi.tiangolo.com/) and [Pony](https://ponyorm.com/).
 
 ## Frontend
 
