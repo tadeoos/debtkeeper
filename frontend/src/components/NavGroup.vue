@@ -66,7 +66,7 @@
     },
     computed: {
       accountAction() {
-        if (this.$store.getters.isAuthenticated) {
+        if (this.$store.getters.isAuthenticated()) {
           return 'Logout'
         } else {
           return false

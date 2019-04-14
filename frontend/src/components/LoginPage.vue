@@ -8,9 +8,11 @@
             <label class="form-label" for="id_username">Username</label>
             <input v-model="username" class="form-input" type="text" id="id_username" placeholder="Username"
                    autofocus="autofocus"
-                   maxlength="150">
+                   maxlength="150"
+                   :class="{ 'is-error': error }">
             <label class="form-label" for="id_password">Password</label>
-            <input v-model="password" class="form-input" type="password" id="id_password" placeholder="Password">
+            <input v-model="password" class="form-input" type="password" id="id_password" placeholder="Password"
+                   :class="{ 'is-error': error }">
           </div>
           <div class="btn-group btn-group-block">
             <button
@@ -45,7 +47,8 @@
       return {
         username: '',
         password: '',
-        errorMsg: ''
+        errorMsg: '',
+        error: false,
       }
     },
     computed: {
@@ -57,11 +60,27 @@
       }
     },
     methods: {
+      valdiate() {
+        if (!self.username || !self.password) {
+          this.error = true;
+        }
+        else {
+          this.error = false;
+        }
+      },
       authenticate() {
+        this.valdiate();
+        if (self.error){
+          return
+        }
         this.$store.dispatch('login', this.formData)
             .then(() => this.$router.push('/ledger'))
       },
       register() {
+        this.valdiate()
+        if (self.error){
+          return
+        }
         this.$store.dispatch('register', this.formData)
             .then(() => this.$store.dispatch('login', this.formData))
             .catch((error) => {
