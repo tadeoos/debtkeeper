@@ -46,6 +46,7 @@ export default new Vuex.Store({
           .then(response => {
             context.commit('setJwtToken', {token: response.data.access_token});
             context.commit('setUserData', {id: response.data.id});
+            router.replace({name: "Ledger"});
           })
           .catch(error => {
             console.log('Error Authenticating: ', error);
@@ -63,7 +64,6 @@ export default new Vuex.Store({
     },
     register(context, userData) {
       return register(userData)
-          .then(context.dispatch('login', userData))
           .catch(error => {
             console.log('Error Registering: ', error);
             EventBus.$emit('failedRegistering: ', error)

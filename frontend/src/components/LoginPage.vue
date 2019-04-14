@@ -59,11 +59,14 @@
     methods: {
       authenticate() {
         this.$store.dispatch('login', this.formData)
-            .then(() => this.$router.push('/'))
+            .then(() => this.$router.push('/ledger'))
       },
       register() {
         this.$store.dispatch('register', this.formData)
-            .then(() => this.$router.push('/'))
+            .then(() => this.$store.dispatch('login', this.formData))
+            .catch((error) => {
+              console.log(error)
+            })
       }
     },
     mounted() {

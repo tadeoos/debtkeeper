@@ -90,7 +90,7 @@ async def route_login_access_token(form_data: OAuth2PasswordRequestForm = Depend
 
 
 @app.post("/register", status_code=201)
-async def register(form_data: OAuth2PasswordRequestForm = Depends()):
+def register(form_data: OAuth2PasswordRequestForm = Depends()):
     try:
         register_new_user(db, form_data.username, form_data.password)
     except RuntimeError:

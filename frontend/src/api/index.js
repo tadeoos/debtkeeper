@@ -58,7 +58,6 @@ export function authenticate(userData) {
 }
 
 export function register(userData) {
-  console.log(userData);
   return axios.post(`${API_URL}/register`, userData, auth_config)
 }
 
