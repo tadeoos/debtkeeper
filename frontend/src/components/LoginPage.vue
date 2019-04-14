@@ -77,7 +77,7 @@
             .then(() => this.$router.push('/ledger'))
       },
       register() {
-        this.valdiate()
+        this.valdiate();
         if (self.error){
           return
         }

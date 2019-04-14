@@ -18,6 +18,9 @@
             <p>
               This web app helps you keep track of anything that you loaned or borrowed.
             </p>
+            <p>This is a <span class="label label-warning">BETA</span> version.</p>
+            <p> There is a
+              possibility that some of your data will be lost, but I'll do my best to avoid it.</p>
             <p>
               You can save it on your mobile device and use it as it was a normal mobile app.
             </p>
