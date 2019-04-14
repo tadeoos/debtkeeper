@@ -14,7 +14,7 @@ SECRET_KEY = config('AUTH_SECRET')
 
 ALGORITHM = "HS256"
 TOKEN_SUBJECT = "access"
-ACCESS_TOKEN_EXPIRE_MINUTES = config("TOKEN_EXPIRES_MINUTES", default=30, cast=int)
+ACCESS_TOKEN_EXPIRE_MINUTES = config("TOKEN_EXPIRES_MINUTES", default=15, cast=int)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -52,12 +52,9 @@ def authenticate_user(db, username: str, password: str):
     return user
 
 
-def create_access_token(*, data: dict, expires_delta: timedelta = None):
+def create_access_token(*, data: dict):
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire, "sub": TOKEN_SUBJECT})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt

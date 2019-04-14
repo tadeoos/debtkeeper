@@ -22,7 +22,6 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.status import HTTP_403_FORBIDDEN
 
 from auth import (
-    ACCESS_TOKEN_EXPIRE_MINUTES,
     ALGORITHM,
     Token,
     TokenPayload,
@@ -78,10 +77,7 @@ async def route_login_access_token(form_data: OAuth2PasswordRequestForm = Depend
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=400, detail="Incorrect email or password")
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"username": form_data.username}, expires_delta=access_token_expires
-    )
+    access_token = create_access_token(data={"username": form_data.username})
     return {"id": user.id, "access_token": access_token, "token_type": "bearer"}
 
 
