@@ -32,8 +32,8 @@
                     <td>{{item.kind | titleCase}}</td>
                     <td>{{item.who}}</td>
                     <td>{{item.what}}</td>
-                    <td>{{item.due_date}}</td>
                     <td>{{item.created | humanize}}</td>
+                    <td>{{item.due_date}}</td>
                     <td>
                       <button v-if="!item.resolved" class="btn btn-sm" @click="resolve(item)">resolve</button>
                       <span v-else class="label label-success">resolved</span>

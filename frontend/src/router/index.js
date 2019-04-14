@@ -13,7 +13,9 @@ Vue.use(Router);
 
 export default new Router({
   mode: 'history',
-  base: '/debtkeeper/',
+  base: process.env.NODE_ENV === 'production'
+      ? '/debtkeeper/'
+      : '',
   routes: [{
     path: '/',
     name: 'Home',
