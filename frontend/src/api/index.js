@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = process.env.VUE_APP_API_URL;
 
 let config = {
   headers: {
@@ -41,15 +41,15 @@ function constructParams(params) {
 
 export function getItems(jwt, filters) {
   let params = constructParams(filters);
-  return axios.get(`${API_URL}/api/items`, {...tokenHeader(jwt), ...params})
+  return axios.get(`${API_URL}/items`, {...tokenHeader(jwt), ...params})
 }
 
 export function postNewItem(item, jwt) {
-  return axios.post(`${API_URL}/api/items`, item, tokenHeader(jwt))
+  return axios.post(`${API_URL}/items`, item, tokenHeader(jwt))
 }
 
 export function resolveItem(itemId, jwt) {
-  return axios.patch(`${API_URL}/api/items/${itemId}`, {'resolved': true}, tokenHeader(jwt))
+  return axios.patch(`${API_URL}/items/${itemId}`, {'resolved': true}, tokenHeader(jwt))
 }
 
 

@@ -100,7 +100,7 @@ async def logout(token: str = Security(oauth2_scheme)):
         db.BlacklistToken(token=token)
 
 
-@app.get("/api/items", response_model=List[DebtItemOut])
+@app.get("/items", response_model=List[DebtItemOut])
 @db_session
 def items(resolved: bool = None, kind: str = None, current_user: int = Depends(get_current_user)):
     user = db.User.get(id=current_user)
@@ -112,7 +112,7 @@ def items(resolved: bool = None, kind: str = None, current_user: int = Depends(g
     return user.get_serialized_debts(**filter_args)
 
 
-@app.post("/api/items", status_code=201)
+@app.post("/items", status_code=201)
 async def create_item(item: DebtItemIn, current_user: int = Depends(get_current_user)):
     try:
         with db_session:
@@ -123,7 +123,7 @@ async def create_item(item: DebtItemIn, current_user: int = Depends(get_current_
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@app.patch("/api/items/{item_id}", status_code=204)
+@app.patch("/items/{item_id}", status_code=204)
 async def patch_item(item_id: int, partial_data: DebtItemPatch, current_user: int = Depends(get_current_user)):
     try:
         with db_session:
