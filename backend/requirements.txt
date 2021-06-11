@@ -45,5 +45,5 @@ urllib3==1.24.1
 uvicorn==0.6.1
 uvloop==0.12.2
 wcwidth==0.1.7
-websockets==7.0
+websockets==9.1
 yarg==0.1.9
