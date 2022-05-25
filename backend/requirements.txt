@@ -32,7 +32,7 @@ py==1.8.0
 pycparser==2.19
 pydantic==0.21
 Pygments==2.3.1
-PyJWT==1.7.1
+PyJWT==2.4.0
 pytest==4.4.0
 pytest-ponyorm==0.3.3
 python-decouple==3.1
